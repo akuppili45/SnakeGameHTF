@@ -7,7 +7,7 @@ const cvs = document.getElementById("snake");
 const ctx = cvs.getContext("2d");
 
 // create the unit
-const box = 32;
+const box = 32; //the small squares for measuring
 
 // load images
 
@@ -45,8 +45,8 @@ snake[0] = {
 // create the food
 
 let food = {
-    x : Math.floor(Math.random()*17+1) * box,
-    y : Math.floor(Math.random()*15+3) * box
+    x : Math.floor(Math.random()*17+1) * box, //random number from 1 to 17
+    y : Math.floor(Math.random()*15+3) * box //random number from 3 to 15
 }
 
 // create the score var
@@ -57,7 +57,7 @@ let score = 0;
 
 let d;
 
-document.addEventListener("keydown",direction);
+document.addEventListener("keydown",direction); //direction called here
 
 function direction(event){
     let key = event.keyCode;
@@ -76,7 +76,7 @@ function direction(event){
     }
 }
 
-// cheack collision function
+// check collision function
 function collision(head,array){
     for(let i = 0; i < array.length; i++){
         if(head.x == array[i].x && head.y == array[i].y){
@@ -91,10 +91,11 @@ function collision(head,array){
 function draw(){
     
     ctx.drawImage(ground,0,0);
-    
+
+    //Draw the snake on the ground
     for( let i = 0; i < snake.length ; i++){
-        ctx.fillStyle = ( i == 0 )? "green" : "white";
-        ctx.fillRect(snake[i].x,snake[i].y,box,box);
+        ctx.fillStyle = ( i == 0 )? "green" : "white"; //current style for whatever you draw over ground you drew in ctx.drawImage(ground,0,0)
+        ctx.fillRect(snake[i].x,snake[i].y,box,box); //drawn over the ground using line above's style
         
         ctx.strokeStyle = "red";
         ctx.strokeRect(snake[i].x,snake[i].y,box,box);
@@ -106,12 +107,12 @@ function draw(){
     let snakeX = snake[0].x;
     let snakeY = snake[0].y;
     
-    // which direction
+    // which direction changing the value of snakeX and snakeY when moving
     if( d == "LEFT") snakeX -= box;
     if( d == "UP") snakeY -= box;
     if( d == "RIGHT") snakeX += box;
     if( d == "DOWN") snakeY += box;
-    
+    //snakeX or snakeY is not the same as any of the values in snake[0]
     // if the snake eats the food
     if(snakeX == food.x && snakeY == food.y){
         score++;
@@ -122,8 +123,8 @@ function draw(){
         }
         // we don't remove the tail
     }else{
-        // remove the tail
-        snake.pop();
+        // remove the tail it's always popping, but it doesn't pop when the snake is where the food's at
+        snake.pop();//if this isn't there then the snake will continuously grow
     }
     
     // add new Head
@@ -134,13 +135,13 @@ function draw(){
     }
     
     // game over
-    
+
     if(snakeX < box || snakeX > 17 * box || snakeY < 3*box || snakeY > 17*box || collision(newHead,snake)){
         clearInterval(game);
         dead.play();
     }
     
-    snake.unshift(newHead);
+    snake.unshift(newHead); //snakeX or snakeY is not the same as any of the values in snake[0]
     
     ctx.fillStyle = "white";
     ctx.font = "45px Changa one";
@@ -150,21 +151,3 @@ function draw(){
 // call draw function every 100 ms
 
 let game = setInterval(draw,100);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
